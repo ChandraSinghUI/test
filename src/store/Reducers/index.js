@@ -1,4 +1,6 @@
+
 const initialState = {
+
   data: [
     {
       id: 0,
@@ -36,15 +38,35 @@ const initialState = {
 };
 
 
+//initialState=;
 
 
 const reducer = (state = initialState, action) => {
+
+  var data =JSON.parse(localStorage.getItem('data'));
+
+if(JSON.parse(localStorage.getItem('data')) != null){
+  state={...data}
+}
+else{
+  state={...state}
+}
+
+
   switch (action.type) {
     case "fetch_data":
+      var newState=JSON.parse(localStorage.getItem('data'));
+      if(!newState){
+        return {
+          ...state.data
+        };  
+      }
+      else{
       return {
         ...state.data
       };
-
+    }
+    
     case "TOGGLESELECT":
       var newState ={"data":[]};
       newState["data"]=[...state.data];
@@ -72,6 +94,15 @@ const reducer = (state = initialState, action) => {
       return {
         ...newState
       };
+
+      case "SAVEDATA":
+      var newState ={"data":[]};
+      newState["data"]=[...action.payload];
+      localStorage.setItem('data',JSON.stringify({...newState}));            
+      return{
+        ...newState
+      }  
+
 
     default: {
       return state;

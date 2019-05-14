@@ -6,4 +6,11 @@ export function toggleSelect(obj) {
   };
 }
 
+export function saveData(obj) {
+  return {
+    type: "SAVEDATA",
+    payload:obj
+  };
+}
+
 //export const TOGGLESELECT = "TOGGLE_SELECT";

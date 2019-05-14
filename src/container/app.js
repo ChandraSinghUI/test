@@ -2,23 +2,18 @@ import React, { Component } from "react";
 import CheckingCard from "../components/checkingcards";
 import { connect } from "react-redux";
 
-import { toggleSelect } from "../store/Actions/index";
+import { toggleSelect, saveData } from "../store/Actions/index";
 class HotelsContainer extends Component {
   constructor(props) {
     super(props);
+    this.child = React.createRef()
   }
 
+  onClick=() =>{
+    this.child.current.getAlert();
+  }
+  
 
-
-  // handlerCheckbox(value, updatevalue, key) {
-  //   console.log(this.props);
-  //   /* this.props.adult.map(data => {
-  //     debugger;
-  //     if (data.id === state) {
-  //       data.active === key;
-  //     }
-  //   }) */
-  // }
   render() {
     console.log("abcgh", this.props.adult);
 
@@ -34,12 +29,14 @@ class HotelsContainer extends Component {
                   adults={adult}
                   data1 = {this.props.adult}
                   handlerClick={this.props.isSelectDisabled}
+                  setClick={click => this.clickChild = click}
+                  sendData={this.props.saveData}
                 />
               );
             })}
           </div>
           <div className="col-md-12">
-            <button className="btn btn-dark mt-4"> Submit </button>
+            <button clickHandler={this.submitdata} onClick={() => this.clickChild()} className="btn btn-dark mt-4"> Submit </button>
           </div>
         </div>
       </div>
@@ -56,7 +53,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 //  var obj={data:obj,key:key}
   return {
-    isSelectDisabled: (obj) => dispatch(toggleSelect(obj))
+    isSelectDisabled: (obj) => dispatch(toggleSelect(obj)),
+    saveData: (obj) => dispatch(saveData(obj))
   };
 };
 

@@ -5,17 +5,46 @@ import { toggleSelect } from "../store/Actions/index";
 class HotelsCard extends Component {
   constructor(props) {
     super(props);
+    this.getAlert = this.getAlert.bind(this);
+
   }
 
-  componentWillReceiveProps({some}){
-    console.log(some);
-    console.log(this.props.adults)
-  }
 
-  clicked(data,e){
+  
+  clicked(data,e){    
     var obj={data:data,active:e.target.checked}
     this.props.handlerClick(obj);
   }
+
+  componentDidMount(){   
+    this.props.setClick(this.getAlert);
+ }
+
+  getAlert() {
+//    alert('clicked');
+    console.log(this.props.sendData(this.props.adult));
+ //   console.log(this.props.adult);
+ }
+
+ handleLangChange(a,b,e){
+  console.log(this.props.adult);
+  if(b == "adult"){
+    this.props.adult[a][b]=parseInt(e.target.value)+1;
+  }
+  if(b == "children"){
+    this.props.adult[a][b]=parseInt(e.target.value);
+  }
+  // let obj={};
+  //  if(obj[a] == undefined && b == 'adult'){
+  //    obj[a]='',
+  //    obj["adult"]=e.target.value+1;
+  //  }
+  //  if(obj[a] == undefined && b == 'adult'){
+  //   obj[a]='',
+  //   obj["adult"]=e.target.value+1;
+  // }   
+//   console.log(a,e.target.value+1);
+ }
 
 
   render(){
@@ -29,7 +58,6 @@ class HotelsCard extends Component {
           <div className="card p-3 mb-2">
             {this.props.adults.checkbox ? (
                 <div className="form-check">
-
               {
                 this.props.adults.active ? 
                 (
@@ -58,35 +86,38 @@ class HotelsCard extends Component {
             <label>Adults (18+)</label>
             {
               this.props.adults.active ? (
-                <select>
+                <select onChange={this.handleLangChange.bind(this,this.props.adults.id,'adult')}>
                 {[...Array(2)].map((e, i) => {
-                  return <option selected={this.props.adults.adult == i+1} sel key={i}>{i+1} </option>;
+                  return <option selected={this.props.adults.adult == i+1} value={i} key={i}>{i+1} </option>;
                 })}
               </select>
               ) : (
-                <select disabled>
-                {[...Array(2)].map((e, i) => {
-                  return <option selected={this.props.adults.adult == i+1} key={i}>{i+1} </option>;
-                })}
-              </select>
+                <div>
+                  <select disabled>
+                  {[...Array(2)].map((e, i) => {
+                    return <option selected={this.props.adults.adult == i+1} key={i}>{i+1} </option>;
+                  })}
+                </select>
+              </div>
               )
             }
 
             <label>Children (0 - 17)</label>
-
             {
               this.props.adults.active ? (
-                <select>
+                <select onChange={this.handleLangChange.bind(this,this.props.adults.id,'children')}>
                 {[...Array(2)].map((e, i) => {
                   return <option selected={this.props.adults.children} key={i}>{i} </option>;
                 })}
               </select>
               ) : (
-                <select disabled>
-                {[...Array(2)].map((e, i) => {
-                  return <option selected={this.props.adults.children} key={i}>{i} </option>;
-                })}
-              </select>
+                <div>
+                  <select disabled>
+                  {[...Array(2)].map((e, i) => {
+                    return <option selected={this.props.adults.children} key={i}>{i} </option>;
+                  })}
+                </select>
+              </div>
               )
             }
 
